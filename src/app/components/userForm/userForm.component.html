@@ -1,0 +1,201 @@
+<div class="user-form-container">
+  <nz-spin [nzSpinning]="loading">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+      <h2>{{ isEditMode ? 'Редактирование пользователя' : 'Создание нового пользователя' }}</h2>
+
+      <nz-divider></nz-divider>
+
+      <h3>Основная информация</h3>
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzXs]="24" [nzSm]="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Имя</nz-form-label>
+            <nz-form-control [nzErrorTip]="getErrorMessage('name')">
+              <input nz-input formControlName="name" placeholder="Введите имя"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzXs]="24" [nzSm]="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Логин</nz-form-label>
+            <nz-form-control [nzErrorTip]="getErrorMessage('username')">
+              <input nz-input formControlName="username" placeholder="Введите логин"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzXs]="24" [nzSm]="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Email</nz-form-label>
+            <nz-form-control [nzErrorTip]="getErrorMessage('email')">
+              <input nz-input formControlName="email" placeholder="Введите email" type="email"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzXs]="24" [nzSm]="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Телефон</nz-form-label>
+            <nz-form-control [nzErrorTip]="getErrorMessage('phone')">
+              <input nz-input formControlName="phone" placeholder="Введите телефон"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzXs]="24" [nzSm]="12">
+          <nz-form-item>
+            <nz-form-label>Веб-сайт</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="website" placeholder="Введите веб-сайт"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <nz-divider></nz-divider>
+
+      <h3>Адрес</h3>
+      <div formGroupName="address">
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <nz-form-item>
+              <nz-form-label nzRequired>Улица</nz-form-label>
+              <nz-form-control [nzErrorTip]="getAddressErrorMessage('street')">
+                <input nz-input formControlName="street" placeholder="Введите улицу"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <nz-form-item>
+              <nz-form-label>Помещение</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="suite" placeholder="Введите помещение"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <nz-form-item>
+              <nz-form-label nzRequired>Город</nz-form-label>
+              <nz-form-control [nzErrorTip]="getAddressErrorMessage('city')">
+                <input nz-input formControlName="city" placeholder="Введите город"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <nz-form-item>
+              <nz-form-label nzRequired>Индекс</nz-form-label>
+              <nz-form-control [nzErrorTip]="getAddressErrorMessage('zipcode')">
+                <input nz-input formControlName="zipcode" placeholder="Введите индекс"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div formGroupName="geo">
+          <div nz-row [nzGutter]="16">
+            <div nz-col [nzXs]="24" [nzSm]="12">
+              <nz-form-item>
+                <nz-form-label>Широта</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="lat" placeholder="Введите широту"/>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col [nzXs]="24" [nzSm]="12">
+              <nz-form-item>
+                <nz-form-label>Долгота</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="lng" placeholder="Введите долготу"/>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nz-divider></nz-divider>
+
+      <h3>Информация о компании</h3>
+      <div formGroupName="company">
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <nz-form-item>
+              <nz-form-label nzRequired>Название компании</nz-form-label>
+              <nz-form-control [nzErrorTip]="getCompanyErrorMessage('name')">
+                <input nz-input formControlName="name" placeholder="Введите название компании"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <nz-form-item>
+              <nz-form-label>Слоган</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="catchPhrase" placeholder="Введите слоган"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXs]="24">
+            <nz-form-item>
+              <nz-form-label>Сфера деятельности</nz-form-label>
+              <nz-form-control>
+                <input nz-input formControlName="bs" placeholder="Введите сферу деятельности"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button nz-button nzType="default" (click)="onCancel()" type="button">
+          <span nz-icon nzType="close"></span> Отмена
+        </button>
+        <button nz-button nzType="primary" type="submit">
+          <nz-icon nzType="save" nzTheme="outline"/>
+          {{ isEditMode ? 'Сохранить' : 'Создать' }}
+        </button>
+      </div>
+    </form>
+  </nz-spin>
+</div>
+
+<style lang="scss">
+  .user-form-container {
+    max-width: 1200px;
+
+    h2 {
+      margin-top: 0;
+      color: #1890ff;
+    }
+
+    h3 {
+      color: #333;
+      margin-bottom: 16px;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    nz-form-item {
+      margin-bottom: 16px;
+    }
+  }
+</style>

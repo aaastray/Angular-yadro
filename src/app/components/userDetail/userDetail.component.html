@@ -1,0 +1,132 @@
+<div class="user-detail-container">
+  <div class="header">
+    <button nz-button nzType="default" (click)="navigateToUsersList()">
+      <nz-icon nzType="arrow-left"></nz-icon>
+      Назад к списку
+    </button>
+    <h2 *ngIf="user">{{ user.name }}</h2>
+    <div class="buttons-container">
+      <button nz-button nzType="primary" (click)="navigateToEditUser()">
+        <span nz-icon nzType="edit"></span> Редактировать
+      </button>
+      <button nz-button nzType="default" nzDanger (click)="deleteSelectUser()">
+        <span nz-icon nzType="delete"></span> Удалить
+      </button>
+    </div>
+  </div>
+
+  <nz-spin [nzSpinning]="loading">
+    <ng-container *ngIf="!error; else errorTemplate">
+      <ng-container *ngIf="user; else loadingTemplate">
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="Основная информация" [nzActive]="true" [nzDisabled]="false">
+            <nz-descriptions nzBordered [nzColumn]="1">
+              <nz-descriptions-item nzTitle="ID">{{ user.id }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Имя">{{ user.name }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Логин">{{ user.username }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Email">{{ user.email }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Телефон">{{ user.phone }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Веб-сайт">
+                <a [href]="'https://' + user.website" target="_blank">{{ user.website }}</a>
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-collapse-panel>
+        </nz-collapse>
+
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="Адрес" [nzActive]="true" [nzDisabled]="false">
+            <nz-descriptions nzBordered [nzColumn]="1">
+              <nz-descriptions-item nzTitle="Улица">{{ user.address.street }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Помещение">{{ user.address.suite }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Город">{{ user.address.city }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Индекс">{{ user.address.zipcode }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Координаты">
+                {{ user.address.geo.lat }}, {{ user.address.geo.lng }}
+              </nz-descriptions-item>
+            </nz-descriptions>
+          </nz-collapse-panel>
+        </nz-collapse>
+        <nz-collapse>
+          <nz-collapse-panel nzHeader="Информация о компании" [nzActive]="true" [nzDisabled]="false">
+            <nz-descriptions nzBordered [nzColumn]="{ xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }">
+              <nz-descriptions-item nzTitle="Название">{{ user.company.name }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Слоган">{{ user.company.catchPhrase }}</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Сфера деятельности">{{ user.company.bs }}</nz-descriptions-item>
+            </nz-descriptions>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </ng-container>
+    </ng-container>
+  </nz-spin>
+
+  <ng-template #loadingTemplate>
+    <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 6 }"></nz-skeleton>
+  </ng-template>
+
+  <ng-template #errorTemplate>
+    <nz-card>
+      <div class="error-container">
+        <span nz-icon nzType="warning" nzTheme="fill" style="color: #ff4d4f; font-size: 48px;"></span>
+        <h3>Ошибка при загрузке данных пользователя</h3>
+        <p>Не удалось загрузить информацию о пользователе. Пожалуйста, попробуйте позже.</p>
+        <button nz-button nzType="primary" (click)="loadUserDetails(userId!)">Попробовать снова</button>
+      </div>
+    </nz-card>
+  </ng-template>
+</div>
+
+<style lang="scss">
+  .user-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+
+    h2 {
+      margin: 0;
+    }
+
+    .buttons-container {
+      display: flex;
+      margin-right: 0;
+      margin-left: auto;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+
+      h2 {
+        margin: 0 16px 0 0;
+        flex: 1 1 auto;
+        min-width: 150px;
+      }
+    }
+
+    .error-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      text-align: center;
+      gap: 16px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header button {
+      align-self: flex-start;
+    }
+  }
+</style>

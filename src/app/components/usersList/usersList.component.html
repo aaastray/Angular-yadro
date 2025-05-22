@@ -1,0 +1,97 @@
+<div class="users-container">
+  <div class="header-actions">
+    <div class="search-box">
+      <input
+        nz-input
+        placeholder="Поиск по имени, email или username"
+        [(ngModel)]="searchValue"
+        (keyup.enter)="onSearch()"
+      />
+      <button nz-button nzType="primary" (click)="onSearch()">Поиск</button>
+      <button nz-button (click)="resetSearch()">Сбросить</button>
+    </div>
+    <button nz-button nzType="primary" (click)="navigateToCreateUser()">
+      <span nz-icon nzType="user-add"></span> Добавить пользователя
+    </button>
+  </div>
+
+  <div class="table-wrapper">
+    <nz-table
+      class="user-table"
+      #usersTable
+      [nzData]="filteredUsers"
+      [nzFrontPagination]="true"
+      [nzTotal]="total"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="pageIndex"
+      [nzLoading]="loading"
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+    >
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Логин</th>
+        <th>Email</th>
+        <th>Телефон</th>
+        <th>Веб-сайт</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of usersTable.data" (click)="navigateToUserDetail(user.id)" style="cursor: pointer;"
+          class="user-row">
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.website }}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<style lang="scss">
+  .users-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    overflow: hidden;
+
+    .header-actions {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      width: 100%;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .user-row:hover {
+      background-color: #f5f5f5;
+      transition: background-color 0.3s;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .header-actions {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+</style>
